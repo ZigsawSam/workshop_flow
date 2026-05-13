@@ -3,351 +3,311 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Workshop Flow</title>
+  <meta name="theme-color" content="#7a4d2a" />
+  <title>Workshop Flow V3</title>
+  <link rel="manifest" href="./manifest.webmanifest">
   <link rel="preconnect" href="https://api.fontshare.com">
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
   <style>
-    :root, [data-theme="light"] {
-      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
-      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
-      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
-      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
-      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
-      --color-bg:#f7f6f2; --color-surface:#fbfaf7; --color-surface-2:#f1eee9; --color-surface-offset:#e7e1d8; --color-border:#d8d1c8; --color-divider:#e2ddd6;
-      --color-text:#201d18; --color-text-muted:#686159; --color-text-faint:#9d968f; --color-text-inverse:#fcfbf8;
-      --color-primary:#7a4d2a; --color-primary-hover:#60391c; --color-primary-highlight:#eadbcf;
-      --color-success:#497a34; --color-warning:#9b5b15; --color-error:#9a2f4f; --color-blue:#285c8f;
-      --radius-sm:0.5rem; --radius-md:0.875rem; --radius-lg:1.2rem; --radius-xl:1.6rem; --radius-full:9999px;
-      --shadow-sm:0 1px 2px rgba(40,30,20,.06); --shadow-md:0 10px 30px rgba(40,30,20,.08);
-      --font-body:'Satoshi', system-ui, sans-serif;
-      --font-display:'Satoshi', system-ui, sans-serif;
-      --transition:180ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    [data-theme="dark"] {
-      --color-bg:#171411; --color-surface:#211c18; --color-surface-2:#2a241f; --color-surface-offset:#312922; --color-border:#433931; --color-divider:#3a322b;
-      --color-text:#f2ece4; --color-text-muted:#c3b7aa; --color-text-faint:#8c8278; --color-text-inverse:#1b1714;
-      --color-primary:#d49a67; --color-primary-hover:#e4b182; --color-primary-highlight:#403126;
-      --color-success:#82b16f; --color-warning:#dda153; --color-error:#de7395; --color-blue:#7bb0e1;
-      --shadow-sm:0 1px 2px rgba(0,0,0,.24); --shadow-md:0 10px 30px rgba(0,0,0,.32);
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%;overflow:hidden;-webkit-text-size-adjust:none;text-size-adjust:none}
-    body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.5;background:var(--color-bg);color:var(--color-text)}
-    button,input,select,textarea{font:inherit;color:inherit}
-    button{cursor:pointer;border:none;background:none}
-    img,svg{display:block;max-width:100%}
-    a{color:inherit;text-decoration:none}
-    :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
-    .app{height:100dvh;display:grid;grid-template-rows:auto 1fr auto;max-width:560px;margin:0 auto;background:var(--color-bg)}
-    .topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:calc(var(--space-4) + env(safe-area-inset-top)) var(--space-4) var(--space-4);background:color-mix(in srgb, var(--color-bg) 88%, transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--color-divider)}
-    .brand{display:flex;gap:var(--space-3);align-items:center}
-    .logo{width:2.25rem;height:2.25rem;padding:0.35rem;border-radius:0.85rem;background:var(--color-primary);color:var(--color-text-inverse);box-shadow:var(--shadow-sm)}
-    .brand h1{font-size:var(--text-lg);line-height:1.1}
-    .brand p{font-size:var(--text-xs);color:var(--color-text-muted)}
-    .icon-btn{min-width:44px;min-height:44px;display:grid;place-items:center;border-radius:var(--radius-full);background:var(--color-surface);border:1px solid var(--color-border)}
-    .main{overflow-y:auto;overscroll-behavior:contain;padding:0 var(--space-4) calc(var(--space-8) + env(safe-area-inset-bottom));display:grid;gap:var(--space-4)}
-    .hero{padding:var(--space-5);margin-top:var(--space-4);background:linear-gradient(180deg,var(--color-surface),var(--color-surface-2));border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-md);display:grid;gap:var(--space-4)}
-    .eyebrow,.label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-muted)}
-    .hero h2{font-size:var(--text-xl);line-height:1.08;max-width:14ch}
-    .hero p{font-size:var(--text-sm);color:var(--color-text-muted);max-width:34ch}
-    .hero-grid,.kpis,.chips,.stages,.list,.settings-list{display:grid;gap:var(--space-3)}
-    .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);box-shadow:var(--shadow-sm)}
-    .kpi-value{font-size:var(--text-lg);font-weight:700;font-variant-numeric:tabular-nums}
-    .muted{color:var(--color-text-muted)}
-    .chips{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .chip{padding:var(--space-3);border-radius:var(--radius-lg);background:var(--color-surface);border:1px solid var(--color-border);display:flex;justify-content:space-between;gap:var(--space-2);font-size:var(--text-sm)}
-    .chip strong{font-size:var(--text-base)}
-    .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-top:var(--space-2)}
-    .section-head h3{font-size:var(--text-lg)}
-    .btn{min-height:44px;padding:0 var(--space-4);border-radius:var(--radius-full);display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);font-size:var(--text-sm);font-weight:700;transition:all var(--transition)}
-    .btn-primary{background:var(--color-primary);color:var(--color-text-inverse)}
-    .btn-secondary{background:var(--color-surface);border:1px solid var(--color-border)}
-    .actions{display:grid;grid-template-columns:1.25fr 1fr;gap:var(--space-3)}
-    .stages .stage{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:var(--space-3);padding:var(--space-4);border-radius:var(--radius-lg);background:var(--color-surface);border:1px solid var(--color-border)}
-    .dot{width:0.8rem;height:0.8rem;border-radius:50%}
-    .done{background:var(--color-success)} .progress{background:var(--color-warning)} .queued{background:var(--color-blue)}
-    .stage strong,.list strong{font-size:var(--text-sm)}
-    .stage span,.list span,.meta{font-size:var(--text-xs);color:var(--color-text-muted)}
-    .list .row{display:grid;grid-template-columns:1fr auto;gap:var(--space-3);align-items:center;padding:var(--space-4);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg)}
-    .badge{display:inline-flex;align-items:center;gap:0.35rem;padding:0.35rem 0.65rem;border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:700}
-    .badge.cut{background:color-mix(in srgb,var(--color-warning) 18%, var(--color-surface));color:var(--color-warning)}
-    .badge.ready{background:color-mix(in srgb,var(--color-success) 18%, var(--color-surface));color:var(--color-success)}
-    .badge.low{background:color-mix(in srgb,var(--color-error) 16%, var(--color-surface));color:var(--color-error)}
-    .form{display:grid;gap:var(--space-3)}
-    .field{display:grid;gap:0.4rem}
-    .field label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-muted)}
-    .input, select{min-height:48px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);padding:0 var(--space-4)}
-    .textarea{min-height:84px;padding:var(--space-3) var(--space-4);resize:vertical}
-    .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-2);padding:var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom));background:color-mix(in srgb, var(--color-bg) 92%, transparent);backdrop-filter:blur(12px);border-top:1px solid var(--color-divider)}
-    .tab{min-height:52px;border-radius:var(--radius-lg);display:grid;place-items:center;gap:0.15rem;font-size:var(--text-xs);color:var(--color-text-muted)}
-    .tab.active{background:var(--color-surface);color:var(--color-text);font-weight:700;border:1px solid var(--color-border)}
-    .screen{display:none;padding-bottom:var(--space-6)}
-    .screen.active{display:grid;gap:var(--space-4)}
-    .helper{font-size:var(--text-xs);color:var(--color-text-muted)}
-    .inline{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3)}
-    .progressbar{height:0.6rem;background:var(--color-surface-offset);border-radius:var(--radius-full);overflow:hidden}
-    .progressbar span{display:block;height:100%;background:var(--color-primary);width:68%}
-    .empty{padding:var(--space-8) var(--space-4);text-align:center;background:var(--color-surface);border:1px dashed var(--color-border);border-radius:var(--radius-xl);color:var(--color-text-muted)}
-    @media (min-width: 700px){
-      .app{max-width:1100px;grid-template-columns:280px 1fr;grid-template-rows:auto 1fr}
-      .topbar{grid-column:1 / -1;padding-inline:var(--space-5)}
-      .main{grid-column:2;grid-row:2;padding:var(--space-4) var(--space-5) var(--space-8)}
-      .tabs{grid-column:1;grid-row:2;align-content:start;border-top:none;border-right:1px solid var(--color-divider);padding:var(--space-5);grid-template-columns:1fr;background:var(--color-surface-2)}
-      .tab{justify-items:start;padding:0 var(--space-4)}
-      .hero-grid{grid-template-columns:1.2fr 0.8fr}
-      .chips{grid-template-columns:repeat(4,minmax(0,1fr))}
-      .kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
-    }
-    @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto;transition:none !important}}
+    :root,[data-theme="light"]{--text-xs:clamp(.75rem,.7rem + .25vw,.875rem);--text-sm:clamp(.875rem,.8rem + .35vw,1rem);--text-base:clamp(1rem,.95rem + .25vw,1.125rem);--text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);--text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);--space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--color-bg:#f7f6f2;--color-surface:#fcfaf7;--color-surface-2:#f2eee8;--color-surface-offset:#e9e1d7;--color-border:#d6cec3;--color-divider:#e4ddd4;--color-text:#221d18;--color-text-muted:#696056;--color-text-faint:#9f968d;--color-text-inverse:#fffaf6;--color-primary:#7a4d2a;--color-primary-hover:#5e381b;--color-primary-highlight:#eedfd1;--color-success:#4c7c34;--color-warning:#ab6517;--color-error:#a13457;--color-blue:#2f6698;--radius-sm:.5rem;--radius-md:.9rem;--radius-lg:1.2rem;--radius-xl:1.6rem;--radius-full:999px;--shadow-sm:0 1px 2px rgba(42,27,14,.06);--shadow-md:0 12px 30px rgba(42,27,14,.08);--font-body:'Satoshi',system-ui,sans-serif;--transition:180ms cubic-bezier(.16,1,.3,1)}
+    [data-theme="dark"]{--color-bg:#171310;--color-surface:#221c17;--color-surface-2:#2a231d;--color-surface-offset:#312821;--color-border:#443932;--color-divider:#3a312b;--color-text:#f2ece4;--color-text-muted:#c6b9ac;--color-text-faint:#8f8377;--color-text-inverse:#1a1613;--color-primary:#d49b69;--color-primary-hover:#e2b181;--color-primary-highlight:#413126;--color-success:#83b36a;--color-warning:#ebb063;--color-error:#e17d9f;--color-blue:#7ab0e3;--shadow-sm:0 1px 2px rgba(0,0,0,.26);--shadow-md:0 16px 36px rgba(0,0,0,.35)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0} html,body{height:100%;overflow:hidden;-webkit-text-size-adjust:none;text-size-adjust:none} body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.5;background:var(--color-bg);color:var(--color-text)} button,input,select,textarea{font:inherit;color:inherit} button{border:none;background:none;cursor:pointer} a{text-decoration:none;color:inherit} img,svg{display:block;max-width:100%} :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
+    .app{height:100dvh;display:grid;grid-template-rows:auto 1fr auto;max-width:620px;margin:0 auto;background:var(--color-bg)}
+    .topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:calc(var(--space-4) + env(safe-area-inset-top)) var(--space-4) var(--space-4);background:color-mix(in srgb,var(--color-bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--color-divider)}
+    .brand{display:flex;gap:var(--space-3);align-items:center}.brand h1{font-size:var(--text-lg);line-height:1.1}.brand p{font-size:var(--text-xs);color:var(--color-text-muted)} .logo{width:2.45rem;height:2.45rem;padding:.42rem;border-radius:.95rem;background:var(--color-primary);color:var(--color-text-inverse)}
+    .top-actions{display:flex;gap:var(--space-2)} .icon-btn{min-width:44px;min-height:44px;display:grid;place-items:center;border-radius:var(--radius-full);background:var(--color-surface);border:1px solid var(--color-border)}
+    .main{overflow-y:auto;overscroll-behavior:contain;padding:0 var(--space-4) calc(var(--space-8) + env(safe-area-inset-bottom));display:grid;gap:var(--space-4)} .screen{display:none;padding-bottom:var(--space-6)} .screen.active{display:grid;gap:var(--space-4)}
+    .hero,.card,.sheet,.board-col,.auth-panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)} .hero{padding:var(--space-5);margin-top:var(--space-4);display:grid;gap:var(--space-4);background:linear-gradient(180deg,var(--color-surface),var(--color-surface-2))}
+    .eyebrow,.label,.helper,.meta{font-size:var(--text-xs);color:var(--color-text-muted)} .eyebrow,.label{text-transform:uppercase;letter-spacing:.08em}
+    .hero h2{font-size:var(--text-xl);line-height:1.08;max-width:13ch} .hero p{font-size:var(--text-sm);color:var(--color-text-muted);max-width:38ch}
+    .stack,.form,.list,.timeline,.sync-list,.board,.workers,.alerts{display:grid;gap:var(--space-3)} .stack-2{display:grid;gap:var(--space-4)}
+    .section-head,.inline,.topline,.chip-row{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3)} .section-head h3{font-size:var(--text-lg)}
+    .btn{min-height:46px;padding:0 var(--space-4);border-radius:var(--radius-full);display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);font-size:var(--text-sm);font-weight:700;transition:all var(--transition)} .btn-primary{background:var(--color-primary);color:var(--color-text-inverse)} .btn-secondary{background:var(--color-surface);border:1px solid var(--color-border)} .btn-ghost{background:transparent;border:1px dashed var(--color-border)}
+    .kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3)} .metric{padding:var(--space-4);border-radius:var(--radius-lg);background:var(--color-surface);border:1px solid var(--color-border)} .metric strong{font-size:var(--text-lg);font-variant-numeric:tabular-nums;display:block}
+    .row,.timeline-item,.sync-item,.worker,.alert{padding:var(--space-4);border-radius:var(--radius-lg);background:var(--color-surface);border:1px solid var(--color-border)} .row{display:grid;grid-template-columns:1fr auto;gap:var(--space-3);align-items:center}
+    .badge,.pill{display:inline-flex;align-items:center;gap:.4rem;padding:.38rem .7rem;border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:700} .pill{background:var(--color-primary-highlight);color:var(--color-primary)} .ok{background:color-mix(in srgb,var(--color-success) 18%, var(--color-surface));color:var(--color-success)} .warn{background:color-mix(in srgb,var(--color-warning) 18%, var(--color-surface));color:var(--color-warning)} .err{background:color-mix(in srgb,var(--color-error) 16%, var(--color-surface));color:var(--color-error)} .info{background:color-mix(in srgb,var(--color-blue) 16%, var(--color-surface));color:var(--color-blue)}
+    .field{display:grid;gap:.45rem}.field label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-muted)} .input,select,textarea{min-height:48px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);padding:0 var(--space-4)} textarea{min-height:92px;padding:var(--space-3) var(--space-4);resize:vertical}
+    .tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--space-2);padding:var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--color-bg) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--color-divider)} .tab{min-height:54px;border-radius:var(--radius-lg);display:grid;place-items:center;gap:.15rem;font-size:var(--text-xs);color:var(--color-text-muted)} .tab.active{background:var(--color-surface);color:var(--color-text);font-weight:700;border:1px solid var(--color-border)}
+    .board{grid-template-columns:repeat(3,minmax(0,1fr));overflow-x:auto;padding-bottom:var(--space-2)} .board-col{padding:var(--space-3);display:grid;gap:var(--space-3);min-width:240px} .board-card{padding:var(--space-3);border-radius:var(--radius-lg);background:var(--color-bg);border:1px solid var(--color-border);display:grid;gap:var(--space-2)}
+    .camera{aspect-ratio:16/10;border-radius:var(--radius-lg);background:repeating-linear-gradient(135deg,var(--color-surface-offset),var(--color-surface-offset) 10px,var(--color-surface) 10px,var(--color-surface) 20px);display:grid;place-items:center;color:var(--color-text-muted);border:1px dashed var(--color-border)}
+    .progress{height:.65rem;border-radius:var(--radius-full);background:var(--color-surface-offset);overflow:hidden}.progress span{display:block;height:100%;background:var(--color-primary)}
+    .banner{display:none;padding:var(--space-3) var(--space-4);border-radius:var(--radius-lg);font-size:var(--text-xs)} .banner.show{display:block} .offline{background:color-mix(in srgb,var(--color-warning) 16%, var(--color-surface));border:1px solid color-mix(in srgb,var(--color-warning) 30%, var(--color-border));color:var(--color-warning)} .success-banner{background:color-mix(in srgb,var(--color-success) 14%, var(--color-surface));border:1px solid color-mix(in srgb,var(--color-success) 24%, var(--color-border));color:var(--color-success)}
+    dialog{margin:auto;border:none;padding:0;background:transparent;max-width:580px;width:calc(100% - 2rem)} dialog::backdrop{background:rgba(0,0,0,.3)} .sheet{padding:var(--space-4)} code.inline-code{font-size:var(--text-xs);padding:.2rem .35rem;border-radius:.35rem;background:var(--color-surface-2)}
+    @media (min-width:760px){.app{max-width:1240px;grid-template-columns:290px 1fr;grid-template-rows:auto 1fr}.topbar{grid-column:1/-1;padding-inline:var(--space-5)}.tabs{grid-column:1;grid-row:2;align-content:start;border-top:none;border-right:1px solid var(--color-divider);padding:var(--space-5);grid-template-columns:1fr;background:var(--color-surface-2)}.tab{justify-items:start;padding:0 var(--space-4)}.main{grid-column:2;grid-row:2;padding:var(--space-4) var(--space-5) var(--space-8)}.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}.stack-2{grid-template-columns:1.2fr .8fr}.stack-3{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}}
+    @media (prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto}}
   </style>
 </head>
 <body>
   <div class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="logo" aria-label="Workshop Flow logo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-            <path d="M4 8.5 12 4l8 4.5-8 4.5-8-4.5Z"></path>
-            <path d="M4 15.5 12 20l8-4.5"></path>
-            <path d="M12 8.5v11"></path>
-          </svg>
-        </div>
-        <div>
-          <h1>Workshop Flow</h1>
-          <p>Inventory + production in one thumb-friendly tool</p>
-        </div>
+        <div class="logo" aria-label="Workshop Flow V3 logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5-8 4.5-8-4.5Z"/><path d="M4 15.5 12 20l8-4.5"/><path d="M12 8.5v11"/></svg></div>
+        <div><h1>Workshop Flow V3</h1><p>Supabase-ready PWA with persistent local data</p></div>
       </div>
-      <button class="icon-btn" data-theme-toggle aria-label="Switch theme">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
+      <div class="top-actions">
+        <button class="icon-btn" id="installBtn" aria-label="Install app"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></button>
+        <button class="icon-btn" data-theme-toggle aria-label="Switch theme"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      </div>
     </header>
 
     <main class="main">
+      <div class="banner offline" id="offlineBanner">Offline mode is active. Changes are stored on this device and added to the sync queue.</div>
+      <div class="banner success-banner" id="syncBanner">Sync completed for queued records.</div>
+
       <section id="screen-home" class="screen active">
         <div class="hero">
-          <span class="eyebrow">Built for textile and leather workshops</span>
-          <div class="hero-grid">
-            <div class="hero-copy" style="display:grid;gap:var(--space-3)">
-              <h2>Track raw material, WIP, and delivery without ERP clutter.</h2>
-              <p>Made for small workshop owners who need stock counts, job cards, and live stage updates from a single phone-first screen.</p>
-              <div class="actions">
-                <button class="btn btn-primary" data-go="production">Start today’s batch</button>
-                <button class="btn btn-secondary" data-go="inventory">Check stock</button>
+          <span class="eyebrow">Version 3 adds local persistence, auth-ready setup, service worker, manifest, sync simulation</span>
+          <div class="stack-2">
+            <div class="stack">
+              <h2>Now shaped like a real installable workshop app, not just a clickable demo.</h2>
+              <p>This version keeps data in the browser, supports install prompts, includes a manifest and service worker, and is structured for Supabase Auth plus row-level security later.</p>
+              <div class="chip-row">
+                <button class="btn btn-primary" data-go="production">Open board</button>
+                <button class="btn btn-secondary" id="openAuth">Connect backend</button>
               </div>
             </div>
-            <div class="card" style="display:grid;gap:var(--space-3);align-self:start">
-              <div class="inline"><span class="label">Today</span><span class="badge ready">On track</span></div>
-              <div>
-                <div class="kpi-value">24 jobs</div>
-                <div class="muted">7 cutting · 11 stitching · 6 finishing</div>
+            <div class="auth-panel" style="padding:var(--space-4);display:grid;gap:var(--space-3)">
+              <div class="section-head"><h3>Cloud status</h3><span class="pill" id="cloudStatus">Local mode</span></div>
+              <div class="kpis" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+                <div class="metric"><span>Queued writes</span><strong id="queuedCount">0</strong><div class="helper">Pending sync</div></div>
+                <div class="metric"><span>Saved device records</span><strong id="savedCount">0</strong><div class="helper">Local database</div></div>
               </div>
               <div>
-                <div class="inline"><span class="helper">Dispatch target</span><span class="helper">68%</span></div>
-                <div class="progressbar"><span></span></div>
+                <div class="topline"><span class="helper">Install readiness</span><span class="helper" id="installText">Manifest + SW added</span></div>
+                <div class="progress"><span style="width:88%"></span></div>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="kpis">
-          <div class="card"><div class="label">Low stock</div><div class="kpi-value">5</div><div class="muted">Material lines under reorder level</div></div>
-          <div class="card"><div class="label">Ready today</div><div class="kpi-value">132</div><div class="muted">Pieces ready for packing</div></div>
-          <div class="card"><div class="label">In progress</div><div class="kpi-value">18</div><div class="muted">Active job cards on floor</div></div>
-          <div class="card"><div class="label">Wastage</div><div class="kpi-value">2.4%</div><div class="muted">This week across all batches</div></div>
-        </div>
-
-        <div>
-          <div class="section-head"><h3>Quick lanes</h3><span class="helper">Common workshop views</span></div>
-          <div class="chips">
-            <button class="chip" data-go="inventory"><span>Raw material<br><strong>Fabric, leather, lining</strong></span><span>→</span></button>
-            <button class="chip" data-go="production"><span>Production board<br><strong>Cut, stitch, finish</strong></span><span>→</span></button>
-            <button class="chip" data-go="orders"><span>Orders<br><strong>Buyer, due date, qty</strong></span><span>→</span></button>
-            <button class="chip" data-go="settings"><span>Master setup<br><strong>Items, units, teams</strong></span><span>→</span></button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="section-head"><h3>Production today</h3><span class="helper">Tap a stage to update</span></div>
-          <div class="stages" style="margin-top:var(--space-3)">
-            <div class="stage"><span class="dot done"></span><div><strong>Cutting complete</strong><span>Batch LW-210 · 40 pieces</span></div><span class="meta">09:10</span></div>
-            <div class="stage"><span class="dot progress"></span><div><strong>Stitching in progress</strong><span>Wallet set W-34 · artisan team B</span></div><span class="meta">12 pcs left</span></div>
-            <div class="stage"><span class="dot queued"></span><div><strong>Edge finishing queued</strong><span>Tote handle lot H-08 waiting QC</span></div><span class="meta">Next</span></div>
-          </div>
+        <div class="kpis" id="homeMetrics"></div>
+        <div class="stack-2">
+          <div class="card" style="padding:var(--space-4)"><div class="section-head"><h3>Alerts</h3><span class="helper">Needs action now</span></div><div class="alerts" id="alerts"></div></div>
+          <div class="card" style="padding:var(--space-4)"><div class="section-head"><h3>Timeline</h3><span class="helper">Recent activity</span></div><div class="timeline" id="timeline"></div></div>
         </div>
       </section>
 
       <section id="screen-inventory" class="screen">
-        <div class="section-head"><h3>Inventory</h3><button class="btn btn-secondary" id="seed-stock">Add sample stock</button></div>
-        <div class="list" id="inventory-list">
-          <div class="row"><div><strong>Buff leather · Tan</strong><span>42 sq ft · Rack A2 · Reorder at 20</span></div><span class="badge ready">Healthy</span></div>
-          <div class="row"><div><strong>Cotton lining · Black</strong><span>18 m · Shelf B1 · Reorder at 25</span></div><span class="badge low">Low</span></div>
-          <div class="row"><div><strong>Metal zipper 8"</strong><span>210 pcs · Bin C4 · Lot Z-88</span></div><span class="badge cut">Use this week</span></div>
+        <div class="section-head"><h3>Inventory</h3><div class="chip-row"><button class="btn btn-secondary" id="scanBtn">Scan</button><button class="btn btn-secondary" id="seedBtn">Seed demo</button></div></div>
+        <div class="card" style="padding:var(--space-4)">
+          <div class="section-head"><h3>Barcode intake</h3><span class="helper">Uses BarcodeDetector when available</span></div>
+          <div class="stack" style="margin-top:var(--space-3)">
+            <div class="camera" id="cameraState">Ready to simulate barcode scan</div>
+            <div class="helper">If the browser supports <code class="inline-code">BarcodeDetector</code>, version 4 can switch this from simulated scanning to live camera detection.</div>
+          </div>
         </div>
-        <div class="card">
-          <div class="section-head"><h3>New material entry</h3><span class="helper">Barcode optional</span></div>
-          <form class="form" id="stock-form">
-            <div class="field"><label for="item-name">Item name</label><input id="item-name" class="input" placeholder="Full grain leather · Chestnut" required></div>
-            <div class="field"><label for="item-qty">Quantity</label><input id="item-qty" class="input" placeholder="50"></div>
-            <div class="field"><label for="item-unit">Unit</label><select id="item-unit"><option>sq ft</option><option>meter</option><option>piece</option><option>kg</option></select></div>
+        <div class="list" id="inventoryList"></div>
+        <div class="card" style="padding:var(--space-4)">
+          <div class="section-head"><h3>Add material</h3><span class="helper">Stored locally now</span></div>
+          <form class="form" id="materialForm">
+            <div class="field"><label for="matName">Item name</label><input id="matName" class="input" placeholder="Goat leather · Brown" required></div>
+            <div class="field"><label for="matQty">Quantity</label><input id="matQty" class="input" placeholder="36"></div>
+            <div class="field"><label for="matUnit">Unit</label><select id="matUnit"><option>sq ft</option><option>meter</option><option>piece</option><option>kg</option></select></div>
+            <div class="field"><label for="matMin">Reorder level</label><input id="matMin" class="input" placeholder="18"></div>
             <button class="btn btn-primary" type="submit">Save material</button>
           </form>
         </div>
       </section>
 
       <section id="screen-production" class="screen">
-        <div class="section-head"><h3>Production board</h3><span class="helper">Move jobs stage by stage</span></div>
-        <div class="card">
-          <div class="stages" id="job-board">
-            <button class="stage" data-cycle><span class="dot queued"></span><div><strong>PC-104 · Passport cover</strong><span>Queued for cutting · 25 pcs · Due tomorrow</span></div><span class="meta">Tap to advance</span></button>
-            <button class="stage" data-cycle><span class="dot progress"></span><div><strong>TB-220 · Tote bag</strong><span>Stitching · 12/30 complete · Team A</span></div><span class="meta">Tap to advance</span></button>
-            <button class="stage" data-cycle><span class="dot done"></span><div><strong>WL-090 · Wallet batch</strong><span>Ready for packing · QC passed</span></div><span class="meta">Tap to reset</span></button>
+        <div class="section-head"><h3>Production board</h3><div class="chip-row"><button class="btn btn-secondary" id="syncNow">Sync now</button><button class="btn btn-secondary" id="clearQueue">Clear queue</button></div></div>
+        <div class="board" id="board"></div>
+        <div class="stack-2">
+          <div class="card" style="padding:var(--space-4)">
+            <div class="section-head"><h3>Create job</h3><span class="helper">Persisted on device</span></div>
+            <form class="form" id="jobForm">
+              <div class="field"><label for="jobSku">SKU / style</label><input id="jobSku" class="input" placeholder="BG-550"></div>
+              <div class="field"><label for="jobQty">Planned qty</label><input id="jobQty" class="input" placeholder="60"></div>
+              <div class="field"><label for="jobBuyer">Buyer</label><input id="jobBuyer" class="input" placeholder="Delhi distributor"></div>
+              <div class="field"><label for="jobStage">Start stage</label><select id="jobStage"><option>Cutting</option><option>Stitching</option><option>Finishing</option></select></div>
+              <button class="btn btn-primary" type="submit">Create job</button>
+            </form>
           </div>
-        </div>
-        <div class="card">
-          <div class="section-head"><h3>Create job card</h3><span class="helper">Simple by design</span></div>
-          <form class="form" id="job-form">
-            <div class="field"><label for="job-style">Style / SKU</label><input id="job-style" class="input" placeholder="TB-450"></div>
-            <div class="field"><label for="job-qty">Planned quantity</label><input id="job-qty" class="input" placeholder="60"></div>
-            <div class="field"><label for="job-stage">Start stage</label><select id="job-stage"><option>Queued</option><option>Cutting</option><option>Stitching</option><option>Finishing</option></select></div>
-            <div class="field"><label for="job-note">Notes</label><textarea id="job-note" class="input textarea" placeholder="Urgent buyer order, use chestnut leather"></textarea></div>
-            <button class="btn btn-primary" type="submit">Add job card</button>
-          </form>
+          <div class="card" style="padding:var(--space-4)">
+            <div class="section-head"><h3>Sync queue</h3><span class="helper">Pending local writes</span></div>
+            <div class="sync-list" id="syncList"></div>
+          </div>
         </div>
       </section>
 
       <section id="screen-orders" class="screen">
-        <div class="section-head"><h3>Orders</h3><span class="helper">Buyer status at a glance</span></div>
-        <div class="list" id="order-list">
-          <div class="row"><div><strong>Order #A-302 · Boutique Jaipur</strong><span>80 wallets · Due 16 May · Material reserved</span></div><span class="badge cut">Cutting</span></div>
-          <div class="row"><div><strong>Order #M-118 · Export sample</strong><span>24 passport covers · Due 18 May · Waiting emboss</span></div><span class="badge ready">Finishing</span></div>
-          <div class="row"><div><strong>Order #L-921 · Local retail</strong><span>12 tote bags · Due 20 May · Ready to pack</span></div><span class="badge ready">Dispatch</span></div>
-        </div>
-        <div class="card">
-          <div class="section-head"><h3>Why this app works</h3><span class="helper">Focused on workshop reality</span></div>
-          <div class="settings-list" style="margin-top:var(--space-3)">
-            <div class="inline"><span>One-hand mobile use</span><span class="helper">Big taps</span></div>
-            <div class="inline"><span>Stock + WIP in same view</span><span class="helper">Less switching</span></div>
-            <div class="inline"><span>Textile or leather friendly units</span><span class="helper">m, sq ft, pcs, kg</span></div>
-            <div class="inline"><span>Fast stage updates</span><span class="helper">No training heavy ERP</span></div>
-          </div>
+        <div class="section-head"><h3>Orders</h3><button class="btn btn-secondary" id="summaryBtn">Build summary</button></div>
+        <div class="list" id="ordersList"></div>
+        <div class="card" style="padding:var(--space-4)">
+          <div class="section-head"><h3>Buyer summary</h3><span class="helper">Ops-ready message</span></div>
+          <textarea id="summaryBox">2 orders on track, 1 material risk item, dispatch list updated.</textarea>
         </div>
       </section>
 
       <section id="screen-settings" class="screen">
-        <div class="section-head"><h3>Setup</h3><span class="helper">Small-team defaults</span></div>
-        <div class="card settings-list">
-          <div class="inline"><span>Workshop type</span><span class="helper">Leather goods</span></div>
-          <div class="inline"><span>Units enabled</span><span class="helper">sq ft, meter, piece</span></div>
-          <div class="inline"><span>Default stages</span><span class="helper">Cut · Stitch · Finish · QC</span></div>
-          <div class="inline"><span>Alerts</span><span class="helper">Low stock + due date</span></div>
+        <div class="section-head"><h3>Backend setup</h3><span class="helper">Supabase-ready config panel</span></div>
+        <div class="card" style="padding:var(--space-4)">
+          <form class="form" id="configForm">
+            <div class="field"><label for="supabaseUrl">Supabase URL</label><input id="supabaseUrl" class="input" placeholder="https://your-project.supabase.co"></div>
+            <div class="field"><label for="supabaseKey">Supabase anon key</label><textarea id="supabaseKey" placeholder="Paste anon key here"></textarea></div>
+            <button class="btn btn-primary" type="submit">Save backend config</button>
+          </form>
         </div>
-        <div class="card">
-          <div class="section-head"><h3>Next build ideas</h3><span class="helper">For version 2</span></div>
-          <div class="settings-list" style="margin-top:var(--space-3)">
-            <div class="inline"><span>Barcode scanning</span><span class="helper">Optional</span></div>
-            <div class="inline"><span>Multi-worker updates</span><span class="helper">Shared team mode</span></div>
-            <div class="inline"><span>Simple profit estimate</span><span class="helper">Material + labor</span></div>
-            <div class="inline"><span>WhatsApp dispatch summary</span><span class="helper">Daily report</span></div>
+        <div class="card" style="padding:var(--space-4)">
+          <div class="section-head"><h3>Database tables</h3><span class="helper">Suggested schema</span></div>
+          <div class="list" style="margin-top:var(--space-3)">
+            <div class="row"><div><strong>profiles</strong><span>Owner and worker identity records</span></div><span class="badge info">Auth</span></div>
+            <div class="row"><div><strong>inventory_items</strong><span>Workshop materials and reorder limits</span></div><span class="badge info">Core</span></div>
+            <div class="row"><div><strong>production_jobs</strong><span>Stage-based WIP records</span></div><span class="badge info">Core</span></div>
+            <div class="row"><div><strong>orders</strong><span>Buyer, due date, dispatch state</span></div><span class="badge info">Core</span></div>
           </div>
         </div>
-        <div class="empty">This is a front-end prototype. Connect it later to Supabase, Firebase, or a custom backend for real workshop data.</div>
+        <div class="card" style="padding:var(--space-4)">
+          <div class="section-head"><h3>Security notes</h3><span class="helper">Ready for row-level security</span></div>
+          <div class="stack" style="margin-top:var(--space-3)">
+            <div class="row"><div><strong>Auth token scoped access</strong><span>Use user session with database policies</span></div><span class="badge ok">Recommended</span></div>
+            <div class="row"><div><strong>Per-user ownership</strong><span>Store <code class="inline-code">user_id</code> on each row</span></div><span class="badge ok">Recommended</span></div>
+            <div class="row"><div><strong>RLS required on every core table</strong><span>Anon key alone must not expose workshop data</span></div><span class="badge warn">Important</span></div>
+          </div>
+        </div>
       </section>
     </main>
 
     <nav class="tabs" aria-label="Primary">
       <button class="tab active" data-tab="home">Home<span>Overview</span></button>
-      <button class="tab" data-tab="inventory">Stock<span>Materials</span></button>
-      <button class="tab" data-tab="production">Jobs<span>WIP</span></button>
-      <button class="tab" data-tab="orders">Orders<span>Dispatch</span></button>
-      <button class="tab" data-tab="settings">Setup<span>Config</span></button>
+      <button class="tab" data-tab="inventory">Stock<span>Items</span></button>
+      <button class="tab" data-tab="production">WIP<span>Queue</span></button>
+      <button class="tab" data-tab="orders">Orders<span>Buyer</span></button>
+      <button class="tab" data-tab="settings">Setup<span>Cloud</span></button>
     </nav>
   </div>
 
+  <dialog id="authDialog">
+    <div class="sheet stack">
+      <div class="section-head"><h3>Connect backend</h3><button class="icon-btn" id="closeAuth" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+      <div class="stack">
+        <div class="helper">This prototype stores your data locally now. Add Supabase project details to switch the next build to cloud auth and synced records.</div>
+        <button class="btn btn-primary" data-go="settings">Open setup</button>
+      </div>
+    </div>
+  </dialog>
+
   <script>
-    const screens = [...document.querySelectorAll('.screen')];
-    const tabs = [...document.querySelectorAll('.tab')];
-    function activate(tab){
-      tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-      screens.forEach(s => s.classList.toggle('active', s.id === `screen-${tab}`));
-    }
-    tabs.forEach(tab => tab.addEventListener('click', () => activate(tab.dataset.tab)));
-    document.querySelectorAll('[data-go]').forEach(btn => btn.addEventListener('click', () => activate(btn.dataset.go)));
-
-    const themeBtn = document.querySelector('[data-theme-toggle]');
-    let currentTheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', currentTheme);
-    const setThemeIcon = () => {
-      themeBtn.innerHTML = currentTheme === 'dark'
-        ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
-        : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    const STORAGE_KEY = 'workflow-v3-state';
+    const CONFIG_KEY = 'workflow-v3-config';
+    const defaultState = {
+      inventory:[
+        {id:1,name:'Buff leather · Tan',qty:42,unit:'sq ft',reorder:20},
+        {id:2,name:'Cotton lining · Black',qty:18,unit:'meter',reorder:25},
+        {id:3,name:'Metal zipper 8"',qty:210,unit:'piece',reorder:120}
+      ],
+      jobs:[
+        {id:11,sku:'PC-104',buyer:'Export sample',qty:25,stage:'Cutting'},
+        {id:12,sku:'TB-220',buyer:'Jaipur boutique',qty:30,stage:'Stitching'},
+        {id:13,sku:'WL-090',buyer:'Local retail',qty:40,stage:'Finishing'}
+      ],
+      orders:[
+        {id:'A-302',buyer:'Boutique Jaipur',qty:80,due:'16 May',status:'Cutting'},
+        {id:'M-118',buyer:'Export sample',qty:24,due:'18 May',status:'Finishing'},
+        {id:'L-921',buyer:'Local retail',qty:12,due:'20 May',status:'Dispatch'}
+      ],
+      timeline:[
+        {title:'Wallet batch WL-090 moved to finishing',time:'09:20'},
+        {title:'Lining stock alert triggered',time:'10:05'},
+        {title:'Order M-118 sample approved',time:'11:30'}
+      ],
+      queue:[]
     };
-    setThemeIcon();
-    themeBtn.addEventListener('click', () => { currentTheme = currentTheme === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', currentTheme); setThemeIcon(); });
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultState;
+    const config = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{"url":"","key":""}');
 
-    const inventoryList = document.getElementById('inventory-list');
-    document.getElementById('stock-form').addEventListener('submit', (e) => {
+    const screens=[...document.querySelectorAll('.screen')], tabs=[...document.querySelectorAll('.tab')];
+    function activate(tab){tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));screens.forEach(s=>s.classList.toggle('active',s.id===`screen-${tab}`));}
+    tabs.forEach(tab=>tab.addEventListener('click',()=>activate(tab.dataset.tab)));
+    document.querySelectorAll('[data-go]').forEach(btn=>btn.addEventListener('click',()=>activate(btn.dataset.go)));
+
+    const themeBtn=document.querySelector('[data-theme-toggle]'); let currentTheme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    function setTheme(){document.documentElement.setAttribute('data-theme',currentTheme);themeBtn.innerHTML=currentTheme==='dark'?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';}
+    setTheme(); themeBtn.addEventListener('click',()=>{currentTheme=currentTheme==='dark'?'light':'dark';setTheme();});
+
+    const inventoryList=document.getElementById('inventoryList'), board=document.getElementById('board'), ordersList=document.getElementById('ordersList'), timelineEl=document.getElementById('timeline'), alertsEl=document.getElementById('alerts'), homeMetrics=document.getElementById('homeMetrics'), syncList=document.getElementById('syncList');
+    const offlineBanner=document.getElementById('offlineBanner'), syncBanner=document.getElementById('syncBanner');
+    const cloudStatus=document.getElementById('cloudStatus'), queuedCount=document.getElementById('queuedCount'), savedCount=document.getElementById('savedCount');
+
+    function persist(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); savedCount.textContent = state.inventory.length + state.jobs.length + state.orders.length; }
+    function persistConfig(){ localStorage.setItem(CONFIG_KEY, JSON.stringify(config)); cloudStatus.textContent = config.url && config.key ? 'Config saved' : 'Local mode'; }
+    function addQueue(label){ state.queue.unshift({label,time:new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}); queuedCount.textContent=state.queue.length; persist(); renderSync(); }
+    function addTimeline(title){ state.timeline.unshift({title,time:'Now'}); if(state.timeline.length>8) state.timeline = state.timeline.slice(0,8); persist(); }
+    function badgeClass(ok){ return ok ? 'ok' : 'err'; }
+
+    function renderHome(){
+      const low=state.inventory.filter(i=>Number(i.qty)<=Number(i.reorder)).length;
+      const active=state.jobs.length;
+      const ready=state.orders.filter(o=>o.status==='Dispatch').length;
+      const queued=state.queue.length;
+      homeMetrics.innerHTML=`<div class="metric"><span>Low stock</span><strong>${low}</strong><div class="helper">Below reorder</div></div><div class="metric"><span>Active jobs</span><strong>${active}</strong><div class="helper">Production cards</div></div><div class="metric"><span>Dispatch ready</span><strong>${ready}</strong><div class="helper">Buyer orders</div></div><div class="metric"><span>Queued sync</span><strong>${queued}</strong><div class="helper">Pending writes</div></div>`;
+      alertsEl.innerHTML='';
+      state.inventory.filter(i=>Number(i.qty)<=Number(i.reorder)).forEach(i=>{const el=document.createElement('div'); el.className='alert'; el.innerHTML=`<strong>${i.name}</strong><div class="helper">Only ${i.qty} ${i.unit} left. Reorder at ${i.reorder}.</div>`; alertsEl.appendChild(el);});
+      if(!alertsEl.children.length){alertsEl.innerHTML='<div class="alert"><strong>No urgent stock alerts</strong><div class="helper">All tracked items are above reorder level.</div></div>'}
+      timelineEl.innerHTML=state.timeline.map(t=>`<div class="timeline-item"><strong>${t.title}</strong><div class="helper">${t.time}</div></div>`).join('');
+    }
+    function renderInventory(){ inventoryList.innerHTML=state.inventory.map(item=>`<div class="row"><div><strong>${item.name}</strong><div class="helper">${item.qty} ${item.unit} · Reorder at ${item.reorder}</div></div><span class="badge ${badgeClass(Number(item.qty)>Number(item.reorder))}">${Number(item.qty)>Number(item.reorder)?'OK':'Low'}</span></div>`).join(''); }
+    function renderBoard(){ const cols=['Cutting','Stitching','Finishing']; board.innerHTML=cols.map(col=>`<div class="board-col"><div class="section-head"><h3>${col}</h3><span class="helper">${state.jobs.filter(j=>j.stage===col).length} jobs</span></div>${state.jobs.filter(j=>j.stage===col).map(job=>`<button class="board-card" data-id="${job.id}"><strong>${job.sku}</strong><div class="helper">${job.buyer}</div><div class="helper">${job.qty} pcs · Tap to move</div></button>`).join('')}</div>`).join(''); }
+    function renderOrders(){ ordersList.innerHTML=state.orders.map(order=>`<div class="row"><div><strong>Order #${order.id} · ${order.buyer}</strong><div class="helper">${order.qty} pcs · Due ${order.due}</div></div><span class="badge ${order.status==='Dispatch'?'ok':order.status==='Finishing'?'info':'warn'}">${order.status}</span></div>`).join(''); }
+    function renderSync(){ syncList.innerHTML = state.queue.length ? state.queue.map(item=>`<div class="sync-item"><strong>${item.label}</strong><div class="helper">Queued at ${item.time}</div></div>`).join('') : '<div class="sync-item"><strong>No queued writes</strong><div class="helper">Local data is in sync with this demo state.</div></div>'; queuedCount.textContent = state.queue.length; }
+    function renderCounts(){ savedCount.textContent = state.inventory.length + state.jobs.length + state.orders.length; cloudStatus.textContent = config.url && config.key ? 'Config saved' : 'Local mode'; }
+    function renderAll(){ renderHome(); renderInventory(); renderBoard(); renderOrders(); renderSync(); renderCounts(); persist(); }
+    renderAll();
+
+    document.getElementById('materialForm').addEventListener('submit',e=>{
       e.preventDefault();
-      const name = document.getElementById('item-name').value.trim();
-      const qty = document.getElementById('item-qty').value.trim() || '0';
-      const unit = document.getElementById('item-unit').value;
-      if(!name) return;
-      const row = document.createElement('div');
-      row.className = 'row';
-      row.innerHTML = `<div><strong>${name}</strong><span>${qty} ${unit} · Just added</span></div><span class="badge ready">New</span>`;
-      inventoryList.prepend(row);
-      e.target.reset();
-      activate('inventory');
+      const item={id:Date.now(),name:matName.value.trim(),qty:Number(matQty.value||0),unit:matUnit.value,reorder:Number(matMin.value||0)};
+      if(!item.name) return;
+      state.inventory.unshift(item); addTimeline(`Material added: ${item.name}`); addQueue(`inventory_items INSERT ${item.name}`); e.target.reset(); renderAll(); activate('inventory');
     });
-    document.getElementById('seed-stock').addEventListener('click', () => {
-      const samples = [
-        ['Canvas strap webbing','120 meter'],
-        ['Brass buckle set','48 piece'],
-        ['Vegetable tanned leather','32 sq ft']
-      ];
-      samples.forEach(([name, qty]) => {
-        const row = document.createElement('div');
-        row.className = 'row';
-        row.innerHTML = `<div><strong>${name}</strong><span>${qty} · Sample line</span></div><span class="badge cut">Check</span>`;
-        inventoryList.prepend(row);
-      });
-    });
-
-    const board = document.getElementById('job-board');
-    const states = [
-      {dot:'queued', text:'Queued for cutting', note:'Tap to advance'},
-      {dot:'progress', text:'Stitching in progress', note:'Tap to advance'},
-      {dot:'done', text:'Ready for packing', note:'Tap to reset'}
-    ];
-    board.addEventListener('click', (e) => {
-      const stage = e.target.closest('[data-cycle]');
-      if(!stage) return;
-      const dot = stage.querySelector('.dot');
-      let idx = states.findIndex(s => dot.classList.contains(s.dot));
-      idx = (idx + 1) % states.length;
-      dot.className = `dot ${states[idx].dot}`;
-      stage.querySelector('span.meta').textContent = states[idx].note;
-      const desc = stage.querySelector('div span');
-      const base = desc.textContent.split('·')[1] ? desc.textContent.split('·').slice(1).join('·').trim() : '';
-      desc.textContent = `${states[idx].text} · ${base || 'Updated now'}`;
-    });
-
-    document.getElementById('job-form').addEventListener('submit', (e) => {
+    document.getElementById('jobForm').addEventListener('submit',e=>{
       e.preventDefault();
-      const style = document.getElementById('job-style').value.trim();
-      const qty = document.getElementById('job-qty').value.trim() || '0';
-      const stageName = document.getElementById('job-stage').value;
-      if(!style) return;
-      const dotClass = stageName === 'Queued' ? 'queued' : stageName === 'Finishing' ? 'done' : 'progress';
-      const btn = document.createElement('button');
-      btn.className = 'stage';
-      btn.dataset.cycle = '';
-      btn.innerHTML = `<span class="dot ${dotClass}"></span><div><strong>${style}</strong><span>${stageName} · ${qty} pcs · Added now</span></div><span class="meta">Tap to advance</span>`;
-      board.prepend(btn);
-      e.target.reset();
-      activate('production');
+      const job={id:Date.now(),sku:jobSku.value.trim()||`JOB-${Math.floor(Math.random()*900)}`,buyer:jobBuyer.value.trim()||'Direct order',qty:Number(jobQty.value||0),stage:jobStage.value};
+      state.jobs.unshift(job); addTimeline(`Job created: ${job.sku}`); addQueue(`production_jobs INSERT ${job.sku}`); e.target.reset(); renderAll(); activate('production');
     });
+    board.addEventListener('click',e=>{
+      const card=e.target.closest('[data-id]'); if(!card) return; const job=state.jobs.find(j=>String(j.id)===card.dataset.id); if(!job) return;
+      job.stage = job.stage==='Cutting' ? 'Stitching' : job.stage==='Stitching' ? 'Finishing' : 'Cutting';
+      addTimeline(`${job.sku} moved to ${job.stage}`); addQueue(`production_jobs UPDATE ${job.sku}`); renderAll();
+    });
+    document.getElementById('summaryBtn').addEventListener('click',()=>{
+      const ready = state.orders.filter(o=>o.status==='Dispatch').length;
+      const low = state.inventory.filter(i=>Number(i.qty)<=Number(i.reorder)).length;
+      const active = state.jobs.length;
+      document.getElementById('summaryBox').value = `${ready} orders dispatch-ready, ${low} low-stock items, ${active} active jobs in production.`;
+      addTimeline('Buyer summary rebuilt'); addQueue('orders SUMMARY generated'); renderAll(); activate('orders');
+    });
+    document.getElementById('seedBtn').addEventListener('click',()=>{
+      state.inventory.unshift({id:Date.now(),name:'Scanned buckle lot · Brass',qty:48,unit:'piece',reorder:15});
+      addTimeline('Demo stock seeded'); addQueue('inventory_items INSERT demo'); renderAll();
+    });
+    document.getElementById('scanBtn').addEventListener('click', async ()=>{
+      const area=document.getElementById('cameraState');
+      if('BarcodeDetector' in window){ area.textContent='BarcodeDetector detected support on this browser. Live capture can be wired in next.'; }
+      else { area.textContent='BarcodeDetector not available here, so scan is simulated.'; }
+      state.inventory.unshift({id:Date.now(),name:'Scan capture · Zipper lot',qty:60,unit:'piece',reorder:20});
+      addTimeline('Scan event added a zipper lot'); addQueue('inventory_items INSERT scan'); renderAll(); activate('inventory');
+    });
+    document.getElementById('syncNow').addEventListener('click',()=>{
+      if(!state.queue.length){syncBanner.textContent='Nothing to sync right now.'; syncBanner.classList.add('show'); setTimeout(()=>syncBanner.classList.remove('show'),1800); return;}
+      state.queue=[]; renderAll(); syncBanner.textContent='Sync completed for queued records.'; syncBanner.classList.add('show'); setTimeout(()=>syncBanner.classList.remove('show'),1800);
+    });
+    document.getElementById('clearQueue').addEventListener('click',()=>{state.queue=[]; renderAll();});
+
+    document.getElementById('configForm').addEventListener('submit',e=>{
+      e.preventDefault(); config.url = supabaseUrl.value.trim(); config.key = supabaseKey.value.trim(); persistConfig(); addTimeline('Backend config saved'); renderAll(); activate('settings');
+    });
+    supabaseUrl.value = config.url || ''; supabaseKey.value = config.key || ''; persistConfig();
+
+    function updateOnline(){ offlineBanner.classList.toggle('show', !navigator.onLine); }
+    window.addEventListener('online', updateOnline); window.addEventListener('offline', updateOnline); updateOnline();
+
+    const authDialog=document.getElementById('authDialog'); document.getElementById('openAuth').addEventListener('click',()=>authDialog.showModal()); document.getElementById('closeAuth').addEventListener('click',()=>authDialog.close());
+
+    let deferredPrompt = null; const installBtn=document.getElementById('installBtn');
+    installBtn.addEventListener('click', async ()=>{ if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt = null; } else { alert('Install becomes available when this app is served from a secure origin with the manifest and service worker files.'); } });
+    window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt = e; });
+
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js').catch(()=>{}); }
   </script>
 </body>
 </html>
